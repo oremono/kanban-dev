@@ -14,7 +14,11 @@
     "jsx": "preserve",
     "incremental": true,
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["./*"],
+      "@modules/*": ["./src/modules/*"],
+      "@modules": ["./src/modules"],
+      "@operations/*": ["./src/operations/*"],
+      "@operations": ["./src/operations"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
