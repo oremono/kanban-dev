@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-interface Event {
+export interface Event {
   id: string;
   title: string;
   description: string;
@@ -8,7 +8,7 @@ interface Event {
   time: string;
 }
 
-interface EventsByDate {
+export interface EventsByDate {
   [date: string]: Event[];
 }
 
