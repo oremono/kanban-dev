@@ -84,6 +84,7 @@ const View = (props: any) => {
                 <motion.li
                   layout
                   key={`${events[key].id}-${index}`}
+                  // @ts-ignore
                   ref={el => (itemsRef.current[index] = el)}
                   className={'group relative shrink-0 select-none px-3 transition-opacity duration-300'}
                   transition={{ ease: 'easeInOut', duration: 0.4 }}
