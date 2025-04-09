@@ -14,7 +14,7 @@ export const withDemoStudentHome = (Component: FunctionComponent) => {
         });
     }, []);
 
-    return <Component {...{ loading, events }} {...props} />;
+    return <Component {...{ loading, events, eventLen: Object.keys(events ?? {}).length }} {...props} />;
   };
   return WithComponent;
 };

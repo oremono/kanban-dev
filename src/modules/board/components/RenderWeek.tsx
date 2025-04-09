@@ -12,7 +12,7 @@ const RenderWeek = (props: any) => {
         const date = 10 + i;
 
         return (
-          <div className={`flex flex-col items-center rounded-xl py-2 px-3 text-white ${bg_color(date)}`}>
+          <div className={`flex flex-col items-center rounded-xl py-2 px-3 text-white ${bg_color(i)}`}>
             <span className="text-xs">{IDX_TO_DAY_MAP[i]}</span>
             <span className="font-bold">{date}</span>
           </div>
