@@ -18,7 +18,9 @@
       "@modules/*": ["./src/modules/*"],
       "@modules": ["./src/modules"],
       "@operations/*": ["./src/operations/*"],
-      "@operations": ["./src/operations"]
+      "@operations": ["./src/operations"],
+      "@helpers/*": ["./src/helpers/*"],
+      "@helpers": ["./src/helpers"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
