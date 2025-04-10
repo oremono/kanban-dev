@@ -2,12 +2,14 @@ import React, { useState, MouseEvent as ReactMouseEvent, useRef } from 'react';
 import { motion, useMotionValue, useSpring, type PanInfo } from 'framer-motion';
 
 import RenderDay from './RenderDay';
+import { useDndMonitor } from '@dnd-kit/core';
 
 const DRAG_THRESHOLD = 150;
 const FALLBACK_WIDTH = 180;
 
 const AnimatedDays = (props: any) => {
   const { active, setActive, events, eventLen } = props;
+  const [drag, setDrag] = useState<'x' | boolean>('x');
   const containerRef = useRef<HTMLUListElement>(null);
   const itemsRef = useRef<(HTMLLIElement | null)[]>([]);
   const canScrollPrev = active > 0;
@@ -23,7 +25,12 @@ const AnimatedDays = (props: any) => {
     animatedX.stop();
 
     const currentOffset = offsetX.get();
-    if (Math.abs(dragOffset) < DRAG_THRESHOLD || (!canScrollPrev && dragOffset > 0) || (!canScrollNext && dragOffset < 0)) {
+    if (
+      !drag ||
+      Math.abs(dragOffset) < DRAG_THRESHOLD ||
+      (!canScrollPrev && dragOffset > 0) ||
+      (!canScrollNext && dragOffset < 0)
+    ) {
       animatedX.set(currentOffset);
       return;
     }
@@ -43,6 +50,11 @@ const AnimatedDays = (props: any) => {
     setActive(active + 1);
   }
 
+  useDndMonitor({
+    onDragStart: () => setDrag(false),
+    onDragEnd: () => setDrag('x')
+  });
+
   return (
     <div className="relative overflow-hidden">
       <motion.ul
@@ -51,7 +63,7 @@ const AnimatedDays = (props: any) => {
         style={{
           x: animatedX
         }}
-        drag="x"
+        drag={drag}
         // dragConstraints={{
         //   left: -(FALLBACK_WIDTH * (eventLen - 1)),
         //   right: FALLBACK_WIDTH

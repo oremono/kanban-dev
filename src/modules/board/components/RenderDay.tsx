@@ -18,8 +18,8 @@ const RenderDay = (props: any) => {
       </div>
 
       <div className="flex flex-col items-center">
-        {day?.map((card: Event) => (
-          <RenderCard card={card} />
+        {day?.map((card: Event, idx: number) => (
+          <RenderCard key={idx} card={card} />
         ))}
       </div>
     </div>
