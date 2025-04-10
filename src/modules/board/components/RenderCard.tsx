@@ -32,7 +32,7 @@ const RenderCard = (props: any) => {
       id={card.id}
       ref={setNodeRef}
       key={card.id}
-      className={`flex flex-col my-3 rounded-lg overflow-hidden shadow-2xl${isDragging ? ' opacity-50' : ''}`}
+      className={`flex flex-col my-4 rounded-lg overflow-hidden shadow-2xl${isDragging ? ' opacity-50' : ''}`}
       {...listeners}
       {...attributes}
     >
@@ -43,7 +43,7 @@ const RenderCard = (props: any) => {
         <img alt={card.id} src={card.imageUrl} width="100%" />
       </div>
 
-      <div className="p-4">
+      <div className="p-4 bg-white border border-t-0 rounded-b-lg border-gray-500">
         <div className="text-lg font-bold">{card.title}</div>
         <div className="text-sm text-gray-600">{card.description}</div>
       </div>
