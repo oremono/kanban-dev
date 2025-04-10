@@ -17,7 +17,7 @@ const View = (props: any) => {
             <div className="text-xl font-bold text-white">Your Schedule</div>
 
             {/* TODO - active */}
-            <RenderWeek active={active} />
+            <RenderWeek active={active} setActive={setActive} />
           </div>
 
           <AnimatedDays active={active} setActive={setActive} events={events} eventLen={eventLen} />
