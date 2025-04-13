@@ -9,7 +9,9 @@ import {
   KeyboardSensor,
   rectIntersection
 } from '@dnd-kit/core';
-import DragOverlay from '@/src/modules/components/DragOverlay';
+
+import DragOverlay from '@modules/components/DragOverlay';
+import { AppWrapper } from '@hooks/useAppContext';
 
 export default function App({ Component, pageProps }: AppProps) {
   const mouseSensor = useSensor(MouseSensor, {
@@ -27,17 +29,19 @@ export default function App({ Component, pageProps }: AppProps) {
 
   return (
     <>
-      <DndContext
-        sensors={sensors}
-        collisionDetection={rectIntersection}
-        autoScroll={{
-          enabled: false,
-          layoutShiftCompensation: false
-        }}
-      >
-        <Component {...pageProps} />;
-        <DragOverlay />
-      </DndContext>
+      <AppWrapper>
+        <DndContext
+          sensors={sensors}
+          collisionDetection={rectIntersection}
+          autoScroll={{
+            enabled: false,
+            layoutShiftCompensation: false
+          }}
+        >
+          <Component {...pageProps} />
+          <DragOverlay />
+        </DndContext>
+      </AppWrapper>
     </>
   );
 }

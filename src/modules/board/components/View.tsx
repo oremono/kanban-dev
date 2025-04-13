@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
 
+import useResponsive from '@hooks/useResponsive';
+import useAppContext from '@hooks/useAppContext';
+
 import RenderWeek from './RenderWeek';
 import AnimatedDays from './AnimatedDays';
-import useResponsive from '@hooks/useResponsive';
 
 const View = (props: any) => {
   const { loading, events, eventLen } = props;
   const { isMobile, isDesktop } = useResponsive();
   const [active, setActive] = useState(0);
+  const { activeDetails } = useAppContext();
 
   return (
     <div className="min-h-screen">
@@ -15,11 +18,13 @@ const View = (props: any) => {
 
       {!loading && isMobile && (
         <>
-          <div className="p-4 w-full bg-[linear-gradient(to_right,_#3b82f6,_#8b5cf6)]">
-            <div className="text-xl font-bold text-white">Your Schedule</div>
+          {!activeDetails && (
+            <div className="p-4 w-full bg-[linear-gradient(to_right,_#3b82f6,_#8b5cf6)]">
+              <div className="text-xl font-bold text-white">Your Schedule</div>
 
-            <RenderWeek active={active} setActive={setActive} />
-          </div>
+              <RenderWeek active={active} setActive={setActive} />
+            </div>
+          )}
 
           <AnimatedDays active={active} setActive={setActive} events={events} eventLen={eventLen} />
         </>

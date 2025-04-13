@@ -2,6 +2,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import { motion, useMotionValue, useSpring, type PanInfo } from 'framer-motion';
 import { DragMoveEvent, useDndMonitor } from '@dnd-kit/core';
 
+import useAppContext from '@hooks/useAppContext';
+
 import RenderDay from './RenderDay';
 
 const DRAG_THRESHOLD = 150;
@@ -12,6 +14,7 @@ const EDGE_HOLD_DURATION = 1500;
 const AnimatedDays = (props: any) => {
   const { active, setActive, events, eventLen } = props;
 
+  const { activeDetails } = useAppContext();
   const [drag, setDrag] = useState<'x' | boolean>('x');
   const containerRef = useRef<HTMLUListElement>(null);
   const itemsRef = useRef<(HTMLLIElement | null)[]>([]);
@@ -80,6 +83,7 @@ const AnimatedDays = (props: any) => {
 
     const currentOffset = offsetX.get();
     if (
+      activeDetails ||
       !drag ||
       Math.abs(dragOffset) < DRAG_THRESHOLD ||
       (!canScrollPrev && dragOffset > 0) ||
@@ -137,7 +141,7 @@ const AnimatedDays = (props: any) => {
   };
 
   return (
-    <div className="relative overflow-hidden">
+    <div className={`relative overflow-x-hidden min-h-screen`}>
       <motion.ul
         ref={containerRef}
         className="flex items-start"
@@ -150,18 +154,18 @@ const AnimatedDays = (props: any) => {
         //   right: FALLBACK_WIDTH
         // }}
         onDragStart={() => {
+          // if (activeDetails) setDrag(false);
           containerRef.current?.setAttribute('data-dragging', 'true');
         }}
         onDragEnd={handleDragSnap}
       >
         {Object.keys(events)?.map((key, index) => (
           <motion.li
-            layout
             key={`${events[key].id}-${index}`}
             // @ts-ignore
             ref={el => (itemsRef.current[index] = el)}
-            className={'group relative shrink-0 select-none px-3 transition-opacity duration-300'}
-            transition={{ ease: 'easeInOut', duration: 0.4 }}
+            className={`relative group shrink-0 select-none transition-opacity duration-300`}
+            transition={{ ease: 'easeInOut', duration: 0.5 }}
             style={{ width: '100%' }}
           >
             <RenderDay date={key} day={events[key]} />
