@@ -20,7 +20,9 @@
       "@operations/*": ["./src/operations/*"],
       "@operations": ["./src/operations"],
       "@helpers/*": ["./src/helpers/*"],
-      "@helpers": ["./src/helpers"]
+      "@helpers": ["./src/helpers"],
+      "@hooks/*": ["./src/hooks/*"],
+      "@hooks": ["./src/hooks"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
