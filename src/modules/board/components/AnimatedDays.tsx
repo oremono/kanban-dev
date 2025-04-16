@@ -12,7 +12,7 @@ const EDGE_THRESHOLD = 80;
 const EDGE_HOLD_DURATION = 1500;
 
 const AnimatedDays = (props: any) => {
-  const { active, setActive, events, eventLen } = props;
+  const { active, setActive, events, eventLen, handleMoveEvent } = props;
 
   const { activeDetails } = useAppContext();
   const [drag, setDrag] = useState<'x' | boolean>('x');
@@ -168,7 +168,7 @@ const AnimatedDays = (props: any) => {
             transition={{ ease: 'easeInOut', duration: 0.5 }}
             style={{ width: '100%' }}
           >
-            <RenderDay date={key} day={events[key]} />
+            <RenderDay date={key} day={events[key]} handleMoveEvent={handleMoveEvent} />
           </motion.li>
         ))}
       </motion.ul>

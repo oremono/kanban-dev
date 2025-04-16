@@ -1,40 +1,17 @@
 import React, { ReactNode } from 'react';
-import { useDndMonitor, useDraggable } from '@dnd-kit/core';
 import { motion } from 'framer-motion';
 
 import useAppContext from '@hooks/useAppContext';
 import AnimateVisibility from '@modules/components/AnimatVisibility';
+import { useDndContext } from '@dnd-kit/core';
 
 const RenderCard = (props: any) => {
-  const { card } = props;
+  const { card, preview = false } = props;
   const { activeDetails, setActiveDetails } = useAppContext();
+  const { active } = useDndContext();
 
   const showDetails = activeDetails == card.id;
   const hideCard = !showDetails && activeDetails != null;
-
-  const {
-    attributes,
-    isDragging,
-    listeners,
-    setNodeRef,
-    node: draggingNode
-  } = useDraggable({
-    id: card.id,
-    data: card,
-    disabled: showDetails
-  });
-
-  useDndMonitor({
-    onDragStart(event) {
-      if (draggingNode && card.id === event.active.id) {
-        // handleDragStart(event);
-      }
-    },
-    onDragEnd(event) {
-      if (draggingNode) {
-      }
-    }
-  });
 
   const details = (
     <>
@@ -64,35 +41,30 @@ const RenderCard = (props: any) => {
     return <AnimateVisibility visible={visible}>{children}</AnimateVisibility>;
   };
 
+  const IMG = preview ? 'img' : motion.img;
+
   const mainBody = (
     <div
+      // TODO -> Need to add snapToCursorCenter modifier
+      // className={`${preview ? ' scale-[0.4]' : ''}`}
       onClick={() => {
-        if (isDragging) return;
+        if (active) return;
         if (showDetails) return;
         setActiveDetails?.(card.id);
       }}
     >
-      <div
-        id={card.id}
-        ref={setNodeRef}
-        key={card.id}
-        className={`flex flex-col${activeDetails == null ? ' my-4' : ''}${isDragging ? ' opacity-50' : ''}`}
-        {...listeners}
-        {...attributes}
-      >
-        <div className="relative flex items-center">
-          {!showDetails && (
-            <div className="absolute top-2 right-2 text-white text-xs p-1 rounded-xl bg-[linear-gradient(135deg,_#4f46e5,_#7c3aed)]">
-              {card.time}
-            </div>
-          )}
+      <div className="relative flex items-center">
+        {!showDetails && (
+          <div className="absolute top-2 right-2 text-white text-xs p-1 rounded-xl bg-[linear-gradient(135deg,_#4f46e5,_#7c3aed)]">
+            {card.time}
+          </div>
+        )}
 
-          <motion.img layout transition={{ duration: 0.5 }} alt={card.id} src={card.imageUrl} width="100%" />
-        </div>
-
-        {animatedDetails(!showDetails, details)}
-        {animatedDetails(showDetails, details)}
+        <IMG layout transition={{ duration: 0.5 }} alt={card.id} src={card.imageUrl} width="100%" />
       </div>
+
+      {animatedDetails(!showDetails, details)}
+      {animatedDetails(showDetails, details)}
     </div>
   );
 

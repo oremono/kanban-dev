@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { useDndMonitor, DragOverlay } from '@dnd-kit/core';
+import { useDndMonitor, DragOverlay, useDndContext } from '@dnd-kit/core';
 
 import RenderCard from '../board/components/RenderCard';
 
 const DragOverlayComponent = () => {
+  const { active } = useDndContext();
   const [card, setCard] = useState(null);
 
   useDndMonitor({
@@ -22,14 +23,10 @@ const DragOverlayComponent = () => {
   };
 
   useEffect(() => {
-    return () => cleanup(); // Cleanup on component unmount
+    return () => cleanup();
   }, []);
 
-  return (
-    <DragOverlay dropAnimation={null}>
-      <RenderCard card={card} />
-    </DragOverlay>
-  );
+  return <DragOverlay>{active && <RenderCard card={card} disabled={true} preview={true} />}</DragOverlay>;
 };
 
 export default DragOverlayComponent;
