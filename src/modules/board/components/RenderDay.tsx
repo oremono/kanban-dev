@@ -31,7 +31,7 @@ const RenderDay = (props: any) => {
   });
 
   return (
-    <div ref={setNodeRef} className={`flex flex-col${!activeDetails ? ' m-6' : ''}`} style={{ border: '1px solid red' }}>
+    <div ref={setNodeRef} className={`flex flex-col${!activeDetails ? ' m-6' : ''}`}>
       <AnimateVisibility visible={!activeDetails}>
         <div className="flex flex-row items-center">
           <div className="min-w-fit font-bold text-grey text-xl text-neutral-900">{formatDate(date)}</div>
@@ -47,6 +47,12 @@ const RenderDay = (props: any) => {
             <RenderCard key={idx} card={card} />
           </Draggable>
         ))}
+
+        {day?.length === 0 && (
+          <div className="flex flex-col items-center justify-center w-full h-[50vh]">
+            <div className="text-xl font-bold text-gray-500">No events</div>
+          </div>
+        )}
       </div>
     </div>
   );
