@@ -3,18 +3,18 @@ import { useState, useEffect, FunctionComponent } from 'react';
 export const withDemoStudentHome = (Component: FunctionComponent) => {
   const WithComponent = (props: any) => {
     const [loading, setLoading] = useState(true);
-    const [events, setEvents] = useState(null);
+    const [weekEvents, setWeekEvents] = useState(null);
 
     useEffect(() => {
       fetch('/api/board')
         .then(response => response.json())
         .then(data => {
-          setEvents(data);
+          setWeekEvents(data);
           setLoading(false);
         });
     }, []);
 
-    return <Component {...{ loading, events, eventLen: Object.keys(events ?? {}).length }} {...props} />;
+    return <Component {...{ loading, weekEvents }} {...props} />;
   };
   return WithComponent;
 };

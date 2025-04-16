@@ -16,7 +16,7 @@ const RenderCard = (props: any) => {
   const details = (
     <>
       <div className={`p-4${!showDetails ? ' bg-white border border-t-0 shadow-2xl rounded-b-lg border-gray-500' : ''}`}>
-        <div className="text-lg font-bold">{card.title}</div>
+        <div className={`text-lg font-bold${!showDetails ? ' line-limit' : ''}`}>{card.title}</div>
         <div className={`text-sm text-gray-600${!showDetails ? ' line-limit' : ''}`}>{card.description}</div>
       </div>
       {showDetails && (

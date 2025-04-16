@@ -4,15 +4,13 @@ import { DragMoveEvent, useDndMonitor } from '@dnd-kit/core';
 
 import useAppContext from '@hooks/useAppContext';
 
-import RenderDay from './RenderDay';
-
 const DRAG_THRESHOLD = 150;
 const FALLBACK_WIDTH = 180;
 const EDGE_THRESHOLD = 80;
 const EDGE_HOLD_DURATION = 1500;
 
 const AnimatedDays = (props: any) => {
-  const { active, setActive, events, eventLen, handleMoveEvent } = props;
+  const { active, setActive, eventLen, children, showControls = false } = props;
 
   const { activeDetails } = useAppContext();
   const [drag, setDrag] = useState<'x' | boolean>('x');
@@ -142,6 +140,24 @@ const AnimatedDays = (props: any) => {
 
   return (
     <div className={`relative overflow-x-hidden min-h-screen`}>
+      {showControls && (
+        <div className="flex flex-row w-full justify-end items-center pt-4 px-8">
+          <button
+            className={`font-bold${canScrollPrev ? ' cursor-pointer' : ' cursor-not-allowed text-gray-400'}`}
+            onClick={scrollPrev}
+          >
+            &laquo; Previous
+          </button>
+          <div className="mx-4 border py-1 px-2">Week - {active + 1}</div>
+          <button
+            className={`font-bold${canScrollNext ? ' cursor-pointer' : ' cursor-not-allowed text-gray-400'}`}
+            onClick={scrollNext}
+          >
+            Next &raquo;
+          </button>
+        </div>
+      )}
+
       <motion.ul
         ref={containerRef}
         className="flex items-start"
@@ -159,18 +175,20 @@ const AnimatedDays = (props: any) => {
         }}
         onDragEnd={handleDragSnap}
       >
-        {Object.keys(events)?.map((key, index) => (
-          <motion.li
-            key={`${events[key].id}-${index}`}
-            // @ts-ignore
-            ref={el => (itemsRef.current[index] = el)}
-            className={`relative group shrink-0 select-none transition-opacity duration-300`}
-            transition={{ ease: 'easeInOut', duration: 0.5 }}
-            style={{ width: '100%' }}
-          >
-            <RenderDay date={key} day={events[key]} handleMoveEvent={handleMoveEvent} />
-          </motion.li>
-        ))}
+        {Array(eventLen)
+          .keys()
+          ?.map((_, index) => (
+            <motion.li
+              key={`animated_days-${index}`}
+              // @ts-ignore
+              ref={el => (itemsRef.current[index] = el)}
+              className={`relative group shrink-0 select-none transition-opacity duration-300`}
+              transition={{ ease: 'easeInOut', duration: 0.5 }}
+              style={{ width: '100%' }}
+            >
+              {children[index]}
+            </motion.li>
+          ))}
       </motion.ul>
     </div>
   );
