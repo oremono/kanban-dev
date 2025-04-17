@@ -34,8 +34,8 @@ export default function App({ Component, pageProps }: AppProps) {
           sensors={sensors}
           collisionDetection={rectIntersection}
           autoScroll={{
-            enabled: false,
-            layoutShiftCompensation: false
+            enabled: false
+            // layoutShiftCompensation: false
           }}
         >
           <Component {...pageProps} />

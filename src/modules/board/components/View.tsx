@@ -18,16 +18,14 @@ const View = (props: any) => {
 
   useEffect(() => {
     if (!loading && Object.keys(props.weekEvents).length) {
-      if (isMobile) {
-        const weeks = Object.keys(props.weekEvents);
-        setEvents(props.weekEvents[weeks[0]]);
-        return;
-      }
+      const weeks = Object.keys(props.weekEvents);
+      setEvents(props.weekEvents[weeks[0]]);
       setWeekEvents(props.weekEvents);
     }
   }, [loading]);
 
   const handleMoveEvent = (from: string, to: string, id: string) => {
+    if (from == to) return;
     if (isMobile) {
       const activeDate = Object.keys(events)[active];
       if (activeDate != to) return;
@@ -75,7 +73,14 @@ const View = (props: any) => {
             handleMoveEvent={handleMoveEvent}
           >
             {Object.keys(events)?.map(key => (
-              <RenderDay key={`render_day-${key}`} date={key} day={events[key]} handleMoveEvent={handleMoveEvent} />
+              <RenderDay
+                key={`render_day-${key}`}
+                week={0}
+                active={0}
+                date={key}
+                day={events[key]}
+                handleMoveEvent={handleMoveEvent}
+              />
             ))}
           </AnimatedDays>
         </>
@@ -96,12 +101,14 @@ const View = (props: any) => {
           >
             {Object.keys(weekEvents)?.map(week => (
               <div key={`weekEvents-${week}`} className="flex flex-row justify-between overflow-x-auto w-full">
-                {Object.keys(weekEvents[week])?.map(key => (
+                {Object.keys(weekEvents[parseInt(week)])?.map(key => (
                   <div className="mx-2">
                     <RenderDay
                       key={`render_day-${key}`}
+                      week={parseInt(week) - 1}
+                      active={active}
                       date={key}
-                      day={weekEvents[week][key]}
+                      day={weekEvents[parseInt(week)][key]}
                       handleMoveEvent={handleMoveEvent}
                     />
                   </div>

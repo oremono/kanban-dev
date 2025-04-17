@@ -3,6 +3,7 @@ import { motion, useMotionValue, useSpring, type PanInfo } from 'framer-motion';
 import { DragMoveEvent, useDndMonitor } from '@dnd-kit/core';
 
 import useAppContext from '@hooks/useAppContext';
+import useResponsive from '@/src/hooks/useResponsive';
 
 const DRAG_THRESHOLD = 150;
 const FALLBACK_WIDTH = 180;
@@ -12,6 +13,7 @@ const EDGE_HOLD_DURATION = 1500;
 const AnimatedDays = (props: any) => {
   const { active, setActive, eventLen, children, showControls = false } = props;
 
+  const { isDesktop } = useResponsive();
   const { activeDetails } = useAppContext();
   const [drag, setDrag] = useState<'x' | boolean>('x');
   const containerRef = useRef<HTMLUListElement>(null);
@@ -39,6 +41,7 @@ const AnimatedDays = (props: any) => {
   useDndMonitor({
     onDragStart: () => setDrag(false),
     onDragMove: (event: DragMoveEvent) => {
+      if (isDesktop || activeDetails) return;
       const x = event.delta.x + getClientX(event.activatorEvent);
 
       // Left Edge Detection

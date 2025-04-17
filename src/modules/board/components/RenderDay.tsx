@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDndMonitor, useDroppable } from '@dnd-kit/core';
+import { useDndContext, useDndMonitor, useDroppable } from '@dnd-kit/core';
 
 import { Event } from '@/pages/api/board';
 import { formatDate } from '@helpers/utils';
@@ -11,7 +11,8 @@ import Draggable from '../../components/Draggable';
 import useResponsive from '@/src/hooks/useResponsive';
 
 const RenderDay = (props: any) => {
-  const { date = '', day = [], handleMoveEvent } = props;
+  const { date = '', day = [], handleMoveEvent, week, active: page } = props;
+  const { active } = useDndContext();
   const { activeDetails } = useAppContext();
   const { isMobile, isDesktop } = useResponsive();
 
@@ -24,6 +25,8 @@ const RenderDay = (props: any) => {
     },
     disabled: false
   });
+
+  const renderCard = (card: Event, idx: number) => <RenderCard key={idx} card={card} />;
 
   useDndMonitor({
     onDragEnd: event => {
@@ -45,11 +48,15 @@ const RenderDay = (props: any) => {
       </AnimateVisibility>
 
       <div className="flex flex-col items-center min-h-screen">
-        {day?.map((card: Event, idx: number) => (
-          <Draggable card={card} activeDetails={activeDetails}>
-            <RenderCard key={idx} card={card} />
-          </Draggable>
-        ))}
+        {day?.map((card: Event, idx: number) =>
+          week == page ? (
+            <Draggable card={card} activeDetails={activeDetails}>
+              {renderCard(card, idx)}
+            </Draggable>
+          ) : (
+            renderCard(card, idx)
+          )
+        )}
 
         {!isOver && day?.length === 0 && (
           <div className="flex flex-col items-center justify-center w-full h-[50vh]">
@@ -57,7 +64,7 @@ const RenderDay = (props: any) => {
           </div>
         )}
 
-        <div className={`m-4${isOver ? ' opacity-100' : ' opacity-0'}`}>
+        <div className={`m-4${isOver && active?.data?.current?.date != date ? ' opacity-100' : ' opacity-0'}`}>
           <div className="flex flex-col items-center justify-center border border-dashed border-4 text-gray-500 py-4 px-10">
             <div className="text-gray-500" style={{ fontSize: '5rem' }}>
               &oplus;
