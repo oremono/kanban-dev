@@ -141,7 +141,7 @@ const AnimatedDays = (props: any) => {
   return (
     <div className={`relative overflow-x-hidden min-h-screen`}>
       {showControls && (
-        <div className="flex flex-row w-full justify-end items-center pt-4 px-8">
+        <div className="flex flex-row w-full justify-end items-center py-4 px-8">
           <button
             className={`font-bold${canScrollPrev ? ' cursor-pointer' : ' cursor-not-allowed text-gray-400'}`}
             onClick={scrollPrev}

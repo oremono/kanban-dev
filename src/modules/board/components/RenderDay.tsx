@@ -8,12 +8,14 @@ import AnimateVisibility from '@modules/components/AnimatVisibility';
 
 import RenderCard from './RenderCard';
 import Draggable from '../../components/Draggable';
+import useResponsive from '@/src/hooks/useResponsive';
 
 const RenderDay = (props: any) => {
   const { date = '', day = [], handleMoveEvent } = props;
   const { activeDetails } = useAppContext();
+  const { isMobile, isDesktop } = useResponsive();
 
-  const { setNodeRef } = useDroppable({
+  const { isOver, setNodeRef } = useDroppable({
     id: date,
     data: {
       date,
@@ -26,15 +28,16 @@ const RenderDay = (props: any) => {
   useDndMonitor({
     onDragEnd: event => {
       if (!event.active.data.current) return;
+      if (isDesktop && !isOver) return;
       handleMoveEvent(event.active.data.current.date, date, event.active.id);
     }
   });
 
   return (
-    <div ref={setNodeRef} className={`flex flex-col${!activeDetails ? ' m-6' : ''}`}>
+    <div ref={setNodeRef} className={`flex flex-col${!activeDetails && isMobile ? ' m-6' : ''}`}>
       <AnimateVisibility visible={!activeDetails}>
         <div className="flex flex-row items-center">
-          <div className="min-w-fit font-bold text-grey text-xl text-neutral-900">{formatDate(date)}</div>
+          <div className="min-w-fit font-bold text-grey text-xl text-neutral-900 line-limit">{formatDate(date)}</div>
           <div className="w-full mx-3">
             <hr />
           </div>
@@ -48,11 +51,20 @@ const RenderDay = (props: any) => {
           </Draggable>
         ))}
 
-        {day?.length === 0 && (
+        {!isOver && day?.length === 0 && (
           <div className="flex flex-col items-center justify-center w-full h-[50vh]">
             <div className="text-xl font-bold text-gray-500">No events</div>
           </div>
         )}
+
+        <div className={`m-4${isOver ? ' opacity-100' : ' opacity-0'}`}>
+          <div className="flex flex-col items-center justify-center border border-dashed border-4 text-gray-500 py-4 px-10">
+            <div className="text-gray-500" style={{ fontSize: '5rem' }}>
+              &oplus;
+            </div>
+            <div className="text-xl font-bold">Drop Here</div>
+          </div>
+        </div>
       </div>
     </div>
   );
