@@ -1,7 +1,13 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { ReactNode } from 'react';
 
-const AnimateVisibility = (props: { visible: boolean; children: ReactNode; animatePresence?: boolean }) => {
+interface AnimateVisibilityProps {
+  visible: boolean;
+  children: ReactNode;
+  animatePresence?: boolean;
+}
+
+const AnimateVisibility = (props: AnimateVisibilityProps) => {
   const { visible, children, animatePresence = true } = props;
 
   const body = (

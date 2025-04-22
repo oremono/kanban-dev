@@ -1,7 +1,12 @@
 import React from 'react';
 import { IDX_TO_DAY_MAP } from '@helpers/constants';
 
-const RenderWeek = (props: any) => {
+interface RenderWeekProps {
+  active: number;
+  setActive: (index: number) => void;
+}
+
+const RenderWeek = (props: RenderWeekProps) => {
   const { active, setActive } = props;
   const bg_color = (i: number) => (i == active ? 'bg-[linear-gradient(135deg,_#4f46e5,_#7c3aed)]' : 'bg-white/30');
 

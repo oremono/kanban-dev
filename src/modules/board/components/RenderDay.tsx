@@ -1,16 +1,24 @@
 import React from 'react';
-import { useDndContext, useDndMonitor, useDroppable } from '@dnd-kit/core';
+import { UniqueIdentifier, useDndContext, useDndMonitor, useDroppable } from '@dnd-kit/core';
 
 import { Event } from '@/pages/api/board';
 import { formatDate } from '@helpers/utils';
 import useAppContext from '@hooks/useAppContext';
+import useResponsive from '@/src/hooks/useResponsive';
 import AnimateVisibility from '@modules/components/AnimatVisibility';
 
 import RenderCard from './RenderCard';
 import Draggable from '../../components/Draggable';
-import useResponsive from '@/src/hooks/useResponsive';
 
-const RenderDay = (props: any) => {
+interface RenderDayProps {
+  date: string;
+  day: Event[];
+  handleMoveEvent: (from: string, to: string, id: UniqueIdentifier) => void;
+  week: number;
+  active: number;
+}
+
+const RenderDay = (props: RenderDayProps) => {
   const { date = '', day = [], handleMoveEvent, week, active: page } = props;
   const { active } = useDndContext();
   const { activeDetails } = useAppContext();
@@ -50,7 +58,7 @@ const RenderDay = (props: any) => {
       <div className="flex flex-col items-center min-h-screen">
         {day?.map((card: Event, idx: number) =>
           week == page ? (
-            <Draggable card={card} activeDetails={activeDetails}>
+            <Draggable card={card} activeDetails={activeDetails ?? null}>
               {renderCard(card, idx)}
             </Draggable>
           ) : (

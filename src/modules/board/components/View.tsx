@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { UniqueIdentifier } from '@dnd-kit/core';
 
 import useResponsive from '@hooks/useResponsive';
 import useAppContext from '@hooks/useAppContext';
@@ -24,7 +25,7 @@ const View = (props: any) => {
     }
   }, [loading]);
 
-  const handleMoveEvent = (from: string, to: string, id: string) => {
+  const handleMoveEvent = (from: string, to: string, id: UniqueIdentifier) => {
     if (from == to) return;
     if (isMobile) {
       const activeDate = Object.keys(events)[active];
@@ -66,12 +67,7 @@ const View = (props: any) => {
             </div>
           )}
 
-          <AnimatedDays
-            active={active}
-            setActive={setActive}
-            eventLen={Object.keys(events).length}
-            handleMoveEvent={handleMoveEvent}
-          >
+          <AnimatedDays active={active} setActive={setActive} eventLen={Object.keys(events).length}>
             {Object.keys(events)?.map(key => (
               <RenderDay
                 key={`render_day-${key}`}
@@ -92,13 +88,7 @@ const View = (props: any) => {
             <div className="text-xl font-bold text-white">Your Schedule</div>
           </div>
 
-          <AnimatedDays
-            active={active}
-            setActive={setActive}
-            eventLen={Object.keys(weekEvents).length}
-            showControls={true}
-            handleMoveEvent={handleMoveEvent}
-          >
+          <AnimatedDays active={active} setActive={setActive} eventLen={Object.keys(weekEvents).length} showControls={true}>
             {Object.keys(weekEvents)?.map(week => (
               <div key={`weekEvents-${week}`} className="flex flex-row justify-between overflow-x-auto w-full">
                 {Object.keys(weekEvents[parseInt(week)])?.map(key => (

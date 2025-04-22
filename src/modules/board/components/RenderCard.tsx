@@ -4,8 +4,14 @@ import { motion } from 'framer-motion';
 import useAppContext from '@hooks/useAppContext';
 import AnimateVisibility from '@modules/components/AnimatVisibility';
 import { useDndContext } from '@dnd-kit/core';
+import { Event } from '@/pages/api/board';
 
-const RenderCard = (props: any) => {
+interface RenderCardProps {
+  card: Event;
+  preview?: boolean;
+}
+
+const RenderCard = (props: RenderCardProps) => {
   const { card, preview = false } = props;
   const { activeDetails, setActiveDetails } = useAppContext();
   const { active } = useDndContext();

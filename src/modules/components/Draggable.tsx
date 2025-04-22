@@ -1,7 +1,16 @@
-import { useDraggable } from '@dnd-kit/core';
 import * as React from 'react';
+import { useDraggable } from '@dnd-kit/core';
 
-const Draggable = (props: any) => {
+import { Event } from '@/pages/api/board';
+
+interface DraggableProps {
+  card: Event;
+  activeDetails: string | null;
+  showDetails?: boolean;
+  children: React.ReactNode;
+}
+
+const Draggable = (props: DraggableProps) => {
   const { card, activeDetails, showDetails } = props;
   const { attributes, isDragging, listeners, setNodeRef } = useDraggable({
     id: card.id,

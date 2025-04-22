@@ -10,7 +10,15 @@ const FALLBACK_WIDTH = 180;
 const EDGE_THRESHOLD = 80;
 const EDGE_HOLD_DURATION = 1500;
 
-const AnimatedDays = (props: any) => {
+interface AnimatedDaysProps {
+  active: number;
+  setActive: any;
+  eventLen: number;
+  children: React.ReactNode[];
+  showControls?: boolean;
+}
+
+const AnimatedDays = (props: AnimatedDaysProps) => {
   const { active, setActive, eventLen, children, showControls = false } = props;
 
   const { isDesktop } = useResponsive();

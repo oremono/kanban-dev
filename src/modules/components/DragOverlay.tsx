@@ -26,7 +26,7 @@ const DragOverlayComponent = () => {
     return () => cleanup();
   }, []);
 
-  return <DragOverlay>{active && <RenderCard card={card} disabled={true} preview={true} />}</DragOverlay>;
+  return <DragOverlay>{active && card && <RenderCard card={card} preview={true} />}</DragOverlay>;
 };
 
 export default DragOverlayComponent;
