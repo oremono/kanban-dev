@@ -59,9 +59,11 @@ const RenderDay = (props: any) => {
         )}
 
         {!isOver && day?.length === 0 && (
-          <div className="flex flex-col items-center justify-center w-full h-[50vh]">
-            <div className="text-xl font-bold text-gray-500">No events</div>
-          </div>
+          <AnimateVisibility visible={!activeDetails}>
+            <div className="flex flex-col items-center justify-center w-full h-[50vh]">
+              <div className="text-xl font-bold text-gray-500">No events</div>
+            </div>
+          </AnimateVisibility>
         )}
 
         <div className={`m-4${isOver && active?.data?.current?.date != date ? ' opacity-100' : ' opacity-0'}`}>

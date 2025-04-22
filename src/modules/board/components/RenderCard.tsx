@@ -37,8 +37,12 @@ const RenderCard = (props: any) => {
     </>
   );
 
-  const animatedDetails = (visible: boolean, children: ReactNode) => {
-    return <AnimateVisibility visible={visible}>{children}</AnimateVisibility>;
+  const animatedDetails = (visible: boolean, children: ReactNode, animatePresence = true) => {
+    return (
+      <AnimateVisibility visible={visible} animatePresence={animatePresence}>
+        {children}
+      </AnimateVisibility>
+    );
   };
 
   const IMG = preview ? 'img' : motion.img;
@@ -70,7 +74,7 @@ const RenderCard = (props: any) => {
 
   // if (hideCard) return <></>;
   // return mainBody;
-  return animatedDetails(!hideCard, mainBody);
+  return animatedDetails(!hideCard, mainBody, false);
 };
 
 export default RenderCard;
