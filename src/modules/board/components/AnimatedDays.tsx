@@ -186,20 +186,18 @@ const AnimatedDays = (props: AnimatedDaysProps) => {
         }}
         onDragEnd={handleDragSnap}
       >
-        {Array(eventLen)
-          .keys()
-          ?.map((_, index) => (
-            <motion.li
-              key={`animated_days-${index}`}
-              // @ts-ignore
-              ref={el => (itemsRef.current[index] = el)}
-              className={`relative group shrink-0 select-none transition-opacity duration-300`}
-              transition={{ ease: 'easeInOut', duration: 0.5 }}
-              style={{ width: '100%' }}
-            >
-              {children[index]}
-            </motion.li>
-          ))}
+        {[...Array(eventLen).keys()]?.map((_, index) => (
+          <motion.li
+            key={`animated_days-${index}`}
+            // @ts-ignore
+            ref={el => (itemsRef.current[index] = el)}
+            className={`relative group shrink-0 select-none transition-opacity duration-300`}
+            transition={{ ease: 'easeInOut', duration: 0.5 }}
+            style={{ width: '100%' }}
+          >
+            {children[index]}
+          </motion.li>
+        ))}
       </motion.ul>
     </div>
   );
