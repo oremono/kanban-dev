@@ -92,9 +92,8 @@ const View = (props: any) => {
             {Object.keys(weekEvents)?.map(week => (
               <div key={`weekEvents-${week}`} className="flex flex-row justify-between overflow-x-auto w-full">
                 {Object.keys(weekEvents[parseInt(week)])?.map(key => (
-                  <div className="mx-2">
+                  <div key={`render_day-${key}`} className="mx-2">
                     <RenderDay
-                      key={`render_day-${key}`}
                       week={parseInt(week) - 1}
                       active={active}
                       date={key}

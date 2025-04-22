@@ -58,7 +58,7 @@ const RenderDay = (props: RenderDayProps) => {
       <div className="flex flex-col items-center min-h-screen">
         {day?.map((card: Event, idx: number) =>
           week == page ? (
-            <Draggable card={card} activeDetails={activeDetails ?? null}>
+            <Draggable key={`Draggable-${idx}`} card={card} activeDetails={activeDetails ?? null}>
               {renderCard(card, idx)}
             </Draggable>
           ) : (

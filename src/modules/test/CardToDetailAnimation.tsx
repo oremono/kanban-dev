@@ -6,7 +6,7 @@ const CardToDetailAnimation = () => {
 
   return (
     <>
-      {!showDetails && Array.from({ length: 10 }, (_, i) => <div>some random shit</div>)}
+      {!showDetails && Array.from({ length: 10 }, (_, i) => <div key={i}>some random shit</div>)}
 
       <div style={!showDetails ? { padding: '1rem' } : {}} onClick={() => setShowDetails(!showDetails)}>
         <motion.img
