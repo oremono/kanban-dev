@@ -72,14 +72,15 @@ const RenderCard = (props: any) => {
         <IMG layout transition={{ duration: 0.5 }} alt={card.id} src={card.imageUrl} width="100%" />
       </div>
 
-      {animatedDetails(!showDetails, details)}
-      {animatedDetails(showDetails, details)}
+      {preview ? details : animatedDetails(!showDetails, details)}
+      {!preview && animatedDetails(showDetails, details)}
     </div>
   );
 
-  // if (hideCard) return <></>;
-  // return mainBody;
-  return animatedDetails(!hideCard, mainBody, false);
+  if (!preview) return animatedDetails(!hideCard, mainBody, false);
+  if (hideCard) return <></>;
+
+  return mainBody;
 };
 
 export default RenderCard;
