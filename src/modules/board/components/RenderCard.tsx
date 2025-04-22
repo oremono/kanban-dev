@@ -54,7 +54,12 @@ const RenderCard = (props: any) => {
       onClick={() => {
         if (active) return;
         if (showDetails) return;
-        setActiveDetails?.(card.id);
+        if (typeof window == 'undefined') return;
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+        new Promise(res => setTimeout(res, 100)).then(() => setActiveDetails?.(card.id));
       }}
     >
       <div className="relative flex items-center">
